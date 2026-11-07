@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#071a2a" />
+  <title>ThoraxSignal | Clinician-friendly chest X-ray support</title>
+  <meta name="description" content="Plain-language chest X-ray decision support with clinician review guardrails." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/styles.css" />
+  <style>
+    .research-section{padding-top:32px;padding-bottom:32px}.research-head{display:flex;justify-content:space-between;gap:20px;align-items:end}.research-note{color:var(--muted);max-width:680px;font-size:.88rem;line-height:1.5}.model-table{width:100%;border-collapse:collapse;margin-top:18px;font-size:.78rem}.model-table th,.model-table td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line)}.model-table th{color:var(--muted);font-size:.68rem;letter-spacing:.07em;text-transform:uppercase}.model-table tr.selected{background:#e8f5f0}.chart-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:18px}.chart-grid figure{margin:0;background:#fff;border:1px solid var(--line);border-radius:12px;padding:8px}.chart-grid img{width:100%;height:150px;object-fit:contain;background:#f7faf9;border-radius:8px}.chart-grid figcaption{font-size:.7rem;color:var(--muted);padding:7px 2px 2px}.xray-stage.live-gradcam .heat-spot{display:none}.xray-stage.live-gradcam:after{content:'';position:absolute;z-index:1;left:var(--cam-x,50%);top:var(--cam-y,50%);width:105px;height:105px;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,#f2785f 0,rgba(240,123,93,.72) 22%,rgba(247,150,91,.17) 58%,transparent 71%);filter:blur(3px)}@media(max-width:900px){.chart-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:560px){.chart-grid{grid-template-columns:1fr}.model-table{font-size:.68rem;display:block;overflow-x:auto}}
+  </style>
+  <script defer src="/assets/app.js"></script>
+  <style>.label-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px 20px}.label-row{display:grid;grid-template-columns:minmax(0,1fr) 74px 118px;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid var(--line)}.label-name{font-size:.82rem;font-weight:650;color:var(--ink)}.label-prob{font-variant-numeric:tabular-nums;text-align:right;color:var(--muted);font-size:.8rem}.label-state{font-size:.68rem;text-align:center;border-radius:999px;padding:5px 8px;background:#f1f4f3;color:var(--muted);font-weight:700;letter-spacing:.04em}.label-state.positive{background:#fff0dc;color:#9d5d14}.label-state.negative{background:#e6f6ef;color:#1c7654}.label-state.abstain{background:#fff7d8;color:#94701e}@media(max-width:760px){.label-list{grid-template-columns:1fr}}</style>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="ThoraxSignal home">
+        <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+        <span><strong>ThoraxSignal</strong><small>Clinical intelligence / v0.9</small></span>
+      </a>
+      <div class="topbar-actions">
+        <span class="environment-pill"><i></i> Local clinical workspace</span>
+        <button class="icon-button" type="button" aria-label="Open help" title="Help">?</button>
+        <div class="avatar" aria-label="User profile">DR</div>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero section-pad">
+        <div>
+          <p class="eyebrow">MULTIMODAL DECISION SUPPORT <span></span> REVIEW WORKBENCH</p>
+          <h1>Read the signal.<br /><em>Trust the context.</em></h1>
+          <p class="hero-copy">Turn image and clinical context into a plain-language review summary, possible next-step checklist, and treatment-safety guardrails—not an automated diagnosis.</p>
+        </div>
+        <div class="hero-meta">
+          <div><span class="meta-label">MODEL</span><strong id="model-status">Patient-level baseline</strong><small id="model-metric">Loading held-out metrics…</small></div>
+          <div><span class="meta-label">LAST SYNC</span><strong id="last-sync">—</strong><small>Evidence library / 1,248 sources</small></div>
+          <div><span class="meta-label">DATASET INTEGRITY</span><strong id="dataset-count">—</strong><small id="data-integrity">Checking duplicate policy…</small></div>
+        </div>
+      </section>
+
+      <section class="workspace section-pad" aria-label="Analysis workspace">
+        <div class="input-column">
+          <div class="section-heading"><div><p class="eyebrow">01 / INPUTS</p><h2>Build a case</h2></div><button id="sample-case" class="text-button" type="button">Load sample case <span>↗</span></button></div>
+
+          <div id="dropzone" class="upload-zone" tabindex="0" role="button" aria-label="Upload a chest X-ray image">
+            <input id="image-input" type="file" accept="image/*,.dcm" hidden />
+            <div class="upload-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5M5 13v4.5A2.5 2.5 0 0 0 7.5 20h9a2.5 2.5 0 0 0 2.5-2.5V13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div><strong>Drop a chest X-ray here</strong><p>or <u>browse from your device</u></p><small>PNG, JPEG, DICOM · max 25 MB</small></div>
+          </div>
+          <div id="file-status" class="file-status" role="status" aria-live="polite"><span class="status-dot"></span><span>No image selected</span></div>
+
+          <form id="clinical-form" class="clinical-form">
+            <div class="form-heading"><span>Clinical context</span><small>All fields optional · improves reliability estimate</small></div>
+            <div class="form-grid two-up">
+              <label>Age <span>years</span><input name="age" type="number" min="0" max="120" placeholder="e.g. 68" /></label>
+              <label>Sex <select name="sex"><option value="">Select</option><option>Female</option><option>Male</option><option>Intersex</option><option>Unknown</option></select></label>
+              <label>View position <select name="view_position"><option value="">Select</option><option>PA</option><option>AP</option><option>AP portable</option><option>Lateral</option><option>PA + lateral</option><option>Unknown</option></select></label>
+              <label>Heart rate <span>bpm</span><input name="heart_rate" type="number" min="0" max="300" placeholder="e.g. 104" /></label>
+              <label>Oxygen saturation <span>%</span><input name="oxygen_saturation" type="number" min="0" max="100" step="0.1" placeholder="e.g. 94" /></label>
+              <label>Temperature <span>°C</span><input name="temperature" type="number" min="25" max="45" step="0.1" placeholder="e.g. 38.2" /></label>
+              <label>Study ID <span>optional</span><input name="study_id" type="text" placeholder="e.g. s50414267" /></label>
+            </div>
+            <label class="full-label">Symptoms <textarea name="symptoms" rows="2" placeholder="e.g. 3 days of dyspnea, productive cough, pleuritic chest pain"></textarea></label>
+            <fieldset class="context-flags">
+              <legend>Context flags for the clinician checklist</legend>
+              <label><input type="checkbox" name="respiratory_symptoms" value="true" /> Respiratory symptoms or fever</label>
+              <label><input type="checkbox" name="chest_pain" value="true" /> Chest pain</label>
+              <label><input type="checkbox" name="coughing_blood" value="true" /> Coughing blood</label>
+              <label><input type="checkbox" name="tb_concern" value="true" /> TB concern, exposure, or positive test</label>
+              <label><input type="checkbox" name="recent_trauma" value="true" /> Recent trauma</label>
+              <label><input type="checkbox" name="immunocompromised" value="true" /> Immunocompromised patient</label>
+              <label><input type="checkbox" name="severe_symptoms" value="true" /> Severe or emergency symptoms</label>
+            </fieldset>
+            <label class="full-label">Notes <textarea name="notes" rows="2" placeholder="Relevant history, comparison studies, or question for review"></textarea></label>
+            <label class="full-label">Radiology report <span>optional · enables report comparison and local retrieval</span><textarea name="radiology_report" rows="3" placeholder="Paste a report only when permitted by your data-use agreement."></textarea></label>
+            <button id="analyze-button" class="primary-button" type="submit"><span class="button-icon">✦</span> Analyze case <span class="button-arrow">→</span></button>
+          </form>
+        </div>
+
+        <div class="results-column">
+          <div class="section-heading result-heading"><div><p class="eyebrow">02 / INTERPRETATION</p><h2>Decision support</h2></div><span id="analysis-time" class="quiet-label">Awaiting case</span></div>
+          <div id="empty-state" class="empty-state"><div class="empty-orbit"><span></span><span></span><span></span></div><h3>Your readout will appear here</h3><p>Upload an image and add clinical context to generate a calibrated, reviewable result.</p></div>
+
+          <div id="result-content" class="result-content" hidden>
+            <div class="impression-banner"><div class="impression-main"><span class="result-kicker">PLAIN-LANGUAGE AI SUMMARY</span><h3 id="finding-title">—</h3><p id="finding-summary">—</p></div><div id="trust-badge" class="trust-badge trusted"><span class="trust-icon">✓</span><span><strong>Review needed</strong><small>Always confirm clinically</small></span></div></div>
+            <section id="clinical-guidance-panel" class="panel clinical-guidance-panel" aria-label="Clinician guidance">
+              <div class="panel-header"><div><span class="metric-label">CLINICIAN CHECKLIST</span><h3>What to do next</h3></div><span id="guidance-level" class="guidance-level">Review required</span></div>
+              <div id="guidance-alert" class="guidance-alert"><strong id="guidance-alert-title">—</strong><p id="guidance-alert-message">—</p><span id="guidance-alert-reasons"></span></div>
+              <div class="guidance-grid">
+                <article><h4>Decision steps</h4><ol id="decision-checklist" class="guidance-list"></ol></article>
+                <article><h4>Possible tests to discuss</h4><div id="possible-tests" class="guidance-list"></div></article>
+              </div>
+              <article class="treatment-safety"><div class="safety-symbol">!</div><div><h4 id="treatment-title">Medication and prescription safety</h4><strong id="treatment-status">No prescription generated</strong><p id="treatment-message">—</p><small id="treatment-action">—</small></div></article>
+              <details class="guidance-details"><summary>How to interpret this screen</summary><p id="guidance-language">—</p><div id="guidance-references" class="guidance-references"></div></details>
+            </section>
+            <article class="panel label-panel"><div class="panel-header"><div><span class="metric-label">POSSIBLE FINDINGS</span><h3>What the model noticed</h3></div><span class="quiet-label">Estimates for clinician review</span></div><div id="label-list" class="label-list"></div></article>
+            <div class="metric-row">
+              <div class="metric-card"><span class="metric-label">AI CONFIDENCE</span><strong id="confidence-value">—</strong><div class="meter"><span id="confidence-meter"></span></div><small id="confidence-note">Always verify against the patient and original study</small></div>
+              <div class="metric-card"><span class="metric-label">RESULT STABILITY</span><strong id="uncertainty-value">—</strong><div class="uncertainty-track"><span id="uncertainty-marker"></span></div><small>Lower uncertainty means more stable under small image changes</small></div>
+              <div class="metric-card"><span class="metric-label">CLINICIAN REVIEW PRIORITY</span><strong id="review-priority">—</strong><small id="review-priority-note">Based on clinical support and result stability</small></div>
+            </div>
+
+            <div class="reliability-grid">
+              <article class="reliability-card image-card"><div class="card-topline"><span class="card-icon image-icon">▧</span><span class="metric-label">IMAGE QUALITY</span><span id="image-reliability-score" class="score high">—</span></div><h4 id="image-reliability-title">—</h4><p id="image-reliability-copy">—</p><div class="mini-meter"><span id="image-reliability-meter"></span></div><div class="card-foot"><span>Acquisition checks</span><strong id="image-quality-note">—</strong></div></article>
+              <article class="reliability-card clinical-card"><div class="card-topline"><span class="card-icon clinical-icon">♧</span><span class="metric-label">CLINICAL CONTEXT</span><span id="clinical-reliability-score" class="score medium">—</span></div><h4 id="clinical-reliability-title">—</h4><p id="clinical-reliability-copy">—</p><div class="mini-meter"><span id="clinical-reliability-meter"></span></div><div class="card-foot"><span>Information coverage</span><strong id="clinical-quality-note">—</strong></div></article>
+            </div>
+
+            <div class="analysis-grid">
+              <article class="panel heatmap-panel"><div class="panel-header"><div><span class="metric-label">IMAGE EVIDENCE</span><h3>Attention map</h3></div><span class="legend"><i></i> Higher attention</span></div><div class="xray-stage"><div class="scan-line"></div><div class="lung lung-left"></div><div class="lung lung-right"></div><div class="spine"></div><div class="heat-spot spot-one"></div><div class="heat-spot spot-two"></div><div class="heat-spot spot-three"></div><span class="orientation">R</span><span class="stage-label">PREVIEW / HEATMAP OVERLAY</span></div><p class="panel-note" id="heatmap-note">Attention is concentrated in the right lower lung zone.</p></article>
+              <article class="panel fusion-panel"><div class="panel-header"><div><span class="metric-label">READOUT CONTEXT</span><h3>What informed the result</h3></div></div><div class="fusion-bars"><div class="fusion-line"><div><span>X-ray contribution</span><strong id="image-weight">—</strong></div><div class="bar"><i id="image-weight-bar"></i></div></div><div class="fusion-line"><div><span>Case information contribution</span><strong id="clinical-weight">—</strong></div><div class="bar clinical-bar"><i id="clinical-weight-bar"></i></div></div></div><div class="fusion-callout"><span>i</span><p id="fusion-note">—</p></div><div class="explanation"><span class="metric-label">PLAIN-LANGUAGE EXPLANATION</span><p id="clinical-explanation">—</p></div></article>
+            </div>
+
+            <div class="lower-grid">
+              <article class="panel evidence-panel"><div class="panel-header"><div><span class="metric-label">LOCAL RETRIEVAL</span><h3>Supporting evidence</h3></div><span class="evidence-count" id="evidence-count">— sources</span></div><p class="panel-note" id="retrieval-note">Evidence is retrieved locally; no patient data is sent externally.</p><div id="evidence-list" class="evidence-list"></div><div id="report-comparison" class="panel-note"></div></article>
+              <article class="panel audit-panel"><div class="panel-header"><div><span class="metric-label">PROVENANCE</span><h3>Audit trail</h3></div><button class="icon-button subtle" type="button" aria-label="More audit trail options">···</button></div><div id="audit-list" class="audit-list"></div><div class="feedback-actions"><button type="button" class="text-button" data-feedback="correct">Mark useful</button><button type="button" class="text-button" data-feedback="incorrect">Mark needs correction</button></div></article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="research-section section-pad" aria-label="Research evaluation">
+        <div class="research-head"><div><p class="eyebrow">03 / MODEL EVALUATION</p><h2>Research comparison</h2></div><span id="selection-summary" class="quiet-label">Loading comparison…</span></div>
+        <p id="research-note" class="research-note">The dashboard compares image, structured-data, and fusion candidates using patient-level splits. Metrics include discrimination, calibration, and compute—not accuracy alone.</p>
+        <div id="model-comparison-table"></div>
+        <div id="research-charts" class="chart-grid"></div>
+      </section>
+
+      <section class="disclaimer section-pad"><div class="disclaimer-icon">!</div><div><strong>Clinical decision support, not a diagnosis</strong><p>ThoraxSignal is an assistive research tool. It may be incomplete or wrong and must not replace professional judgment, local protocols, or direct review of the original study. Confirm all findings before acting.</p></div><span class="disclaimer-tag">FOR CLINICIAN REVIEW</span></section>
+    </main>
+    <footer class="footer section-pad"><span>ThoraxSignal / reliability-aware radiology support</span><span>Secure local workspace · No patient data stored by this interface</span></footer>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

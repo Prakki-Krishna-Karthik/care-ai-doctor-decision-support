@@ -1,0 +1,72 @@
+{
+  "Atelectasis": {
+    "positive_threshold": 0.65,
+    "negative_threshold": 0.35,
+    "min_reliability": 0.3
+  },
+  "Cardiomegaly": {
+    "positive_threshold": 0.54,
+    "negative_threshold": 0.46,
+    "min_reliability": 0.3
+  },
+  "Consolidation": {
+    "positive_threshold": 0.56,
+    "negative_threshold": 0.44,
+    "min_reliability": 0.3
+  },
+  "Edema": {
+    "positive_threshold": 0.62,
+    "negative_threshold": 0.38,
+    "min_reliability": 0.3
+  },
+  "Enlarged Cardiomediastinum": {
+    "positive_threshold": 0.3,
+    "negative_threshold": 0.7,
+    "min_reliability": 0.3
+  },
+  "Fracture": {
+    "positive_threshold": 0.74,
+    "negative_threshold": 0.26,
+    "min_reliability": 0.3
+  },
+  "Lung Lesion": {
+    "positive_threshold": 0.78,
+    "negative_threshold": 0.22,
+    "min_reliability": 0.3
+  },
+  "Lung Opacity": {
+    "positive_threshold": 0.3,
+    "negative_threshold": 0.7,
+    "min_reliability": 0.3
+  },
+  "No Finding": {
+    "positive_threshold": 0.65,
+    "negative_threshold": 0.35,
+    "min_reliability": 0.3
+  },
+  "Pleural Effusion": {
+    "positive_threshold": 0.64,
+    "negative_threshold": 0.36,
+    "min_reliability": 0.3
+  },
+  "Pleural Other": {
+    "positive_threshold": 0.65,
+    "negative_threshold": 0.35,
+    "min_reliability": 0.3
+  },
+  "Pneumonia": {
+    "positive_threshold": 0.3,
+    "negative_threshold": 0.7,
+    "min_reliability": 0.3
+  },
+  "Pneumothorax": {
+    "positive_threshold": 0.3,
+    "negative_threshold": 0.7,
+    "min_reliability": 0.3
+  },
+  "Support Devices": {
+    "positive_threshold": 0.65,
+    "negative_threshold": 0.35,
+    "min_reliability": 0.3
+  }
+}

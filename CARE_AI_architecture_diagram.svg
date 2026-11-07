@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2400" height="1500" viewBox="0 0 2400 1500">
+<rect width="2400" height="1500" fill="#FFFFFF"/>
+<text x="70" y="70" font-family="Segoe UI, Arial, sans-serif" font-size="32px" font-weight="700" fill="#1F1F1F" text-anchor="start">CARE-AI: Reliability-Aware Multimodal Chest X-ray Decision Support</text>
+<text x="73" y="105" font-family="Segoe UI, Arial, sans-serif" font-size="16px" font-weight="400" fill="#333333" text-anchor="start">Data integrity → trained branches → reliability and uncertainty → local RAG evidence → clinician-facing output</text>
+<rect x="55" y="235" width="320" height="270" rx="6" fill="#FFFFFF" stroke="#4D6885" stroke-width="2"/>
+<text x="79" y="275" font-family="Segoe UI, Arial, sans-serif" font-size="17px" font-weight="700" fill="#1F1F1F" text-anchor="start">Local data</text>
+<text x="83" y="317" font-family="Segoe UI, Arial, sans-serif" font-size="14px" font-weight="400" fill="#333333" text-anchor="start">• MIMIC-CXR-JPG images</text>
+<text x="83" y="346" font-family="Segoe UI, Arial, sans-serif" font-size="14px" font-weight="400" fill="#333333" text-anchor="start">• Clinical CSVs and splits</text>
+<text x="83" y="375" font-family="Segoe UI, Arial, sans-serif" font-size="14px" font-weight="400" fill="#333333" text-anchor="start">• Local radiology report archive</text>
+<rect x="425" y="235" width="320" height="270" rx="6" fill="#FFFFFF" stroke="#4D6885" stroke-width="2"/>
+<text x="449" y="275" font-family="Segoe UI, Arial, sans-serif" font-size="17px" font-weight="700" fill="#1F1F1F" text-anchor="start">Preprocessing</text>
+<text x="453" y="317" font-family="Segoe UI, Arial, sans-serif" font-size="14px" font-weight="400" fill="#333333" text-anchor="start">• Recursive discovery and dedup</text>
+<text x="453" y="346" font-family="Segoe UI, Arial, sans-serif" font-size="14px" font-weight="400" fill="#333333" text-anchor="start">• Clinical joins and missingness</text>
+<text x="453" y="375" font-family="Segoe UI, Arial, sans-serif" font-size="14px" font-weight="400" fill="#333333" text-anchor="start">• Patient-wise split</text>
+<rect x="795" y="235" width="235" height="300" rx="6" fill="#FFFFFF" stroke="#4D6885" stroke-width="2"/>
+<text x="819" y="275" font-family="Segoe UI, Arial, sans-serif" font-size="17px" font-weight="700" fill="#1F1F1F" text-anchor="start">Image branch</text>
+<text x="823" y="317" font-family="Segoe UI, Arial, sans-serif" font-size="14px" font-weight="400" fill="#333333" text-anchor="start">• DenseNet-121</text>
+<text x="823" y="346" font-family="Segoe UI, Arial, sans-serif" font-size="14px" font-weight="400" fill="#333333" text-anchor="start">• 14 label probabilities</text>
+<text x="823" y="375" font-family="Segoe UI, Arial, sans-serif" font-size="14px" font-weight="400" fill="#333333" text-anchor="start">• Grad-CAM</text>
+<rect x="1050" y="235" width="235" height="300" rx="6" fill="#FFFFFF" stroke="#4D6885" stroke-width="2"/>
+<text x="1074" y="275" font-family="Segoe UI, Arial, sans-serif" font-size="17px" font-weight="700" fill="#1F1F1F" text-anchor="start">Clinical branch</text>
+<text x="1078" y="317" font-family="Segoe UI, Arial, sans-serif" font-size="14px" font-weight="400" fill="#333333" text-anchor="start">• Structured metadata</text>
+<text x="1078" y="346" font-family="Segoe UI, Arial, sans-serif" font-size="14px" font-weight="400" fill="#333333" text-anchor="start">• Random Forest candidate</text>
+<text x="1078" y="375" font-family="Segoe UI, Arial, sans-serif" font-size="14px" font-weight="400" fill="#333333" text-anchor="start">• Audit comparator</text>
+<rect x="1340" y="235" width="360" height="260" rx="6" fill="#FFFFFF" stroke="#4D6885" stroke-width="2"/>
+<text x="1364" y="275" font-family="Segoe UI, Arial, sans-serif" font-size="17px" font-weight="700" fill="#1F1F1F" text-anchor="start">Reliability estimation</text>
+<text x="1368" y="317" font-family="Segoe UI, Arial, sans-serif" font-size="14px" font-weight="400" fill="#333333" text-anchor="start">• Image quality score Rᵢ</text>
+<text x="1368" y="346" font-family="Segoe UI, Arial, sans-serif" font-size="14px" font-weight="400" fill="#333333" text-anchor="start">• Clinical quality score R꜀</text>
+<text x="1368" y="375" font-family="Segoe UI, Arial, sans-serif" font-size="14px" font-weight="400" fill="#333333" text-anchor="start">• Scores in [0,1]</text>
+<rect x="1340" y="555" width="360" height="270" rx="6" fill="#FFFFFF" stroke="#4D6885" stroke-width="2"/>
+<text x="1364" y="595" font-family="Segoe UI, Arial, sans-serif" font-size="17px" font-weight="700" fill="#1F1F1F" text-anchor="start">Reliability-aware fusion</text>
+<text x="1368" y="637" font-family="Segoe UI, Arial, sans-serif" font-size="14px" font-weight="400" fill="#333333" text-anchor="start">• w꜀ and wᵢ from reliability</text>
+<text x="1368" y="666" font-family="Segoe UI, Arial, sans-serif" font-size="14px" font-weight="400" fill="#333333" text-anchor="start">• F = w꜀H꜀ + wᵢHᵢ</text>
+<text x="1368" y="695" font-family="Segoe UI, Arial, sans-serif" font-size="14px" font-weight="400" fill="#333333" text-anchor="start">• Weak evidence contributes less</text>
+<rect x="1760" y="235" width="260" height="260" rx="6" fill="#FFFFFF" stroke="#4D6885" stroke-width="2"/>
+<text x="1784" y="275" font-family="Segoe UI, Arial, sans-serif" font-size="17px" font-weight="700" fill="#1F1F1F" text-anchor="start">Prediction</text>
+<text x="1788" y="317" font-family="Segoe UI, Arial, sans-serif" font-size="14px" font-weight="400" fill="#333333" text-anchor="start">• 14-label output</text>
+<text x="1788" y="346" font-family="Segoe UI, Arial, sans-serif" font-size="14px" font-weight="400" fill="#333333" text-anchor="start">• Calibrated probabilities</text>
+<text x="1788" y="375" font-family="Segoe UI, Arial, sans-serif" font-size="14px" font-weight="400" fill="#333333" text-anchor="start">• Abstention gate</text>
+<rect x="2045" y="235" width="260" height="260" rx="6" fill="#FFFFFF" stroke="#4D6885" stroke-width="2"/>
+<text x="2069" y="275" font-family="Segoe UI, Arial, sans-serif" font-size="17px" font-weight="700" fill="#1F1F1F" text-anchor="start">Uncertainty</text>
+<text x="2073" y="317" font-family="Segoe UI, Arial, sans-serif" font-size="14px" font-weight="400" fill="#333333" text-anchor="start">• Three image views</text>
+<text x="2073" y="346" font-family="Segoe UI, Arial, sans-serif" font-size="14px" font-weight="400" fill="#333333" text-anchor="start">• Ensemble spread</text>
+<text x="2073" y="375" font-family="Segoe UI, Arial, sans-serif" font-size="14px" font-weight="400" fill="#333333" text-anchor="start">• Review priority</text>
+<rect x="1760" y="555" width="545" height="270" rx="6" fill="#FFFFFF" stroke="#4D6885" stroke-width="2"/>
+<text x="1784" y="595" font-family="Segoe UI, Arial, sans-serif" font-size="17px" font-weight="700" fill="#1F1F1F" text-anchor="start">Local RAG and report comparison</text>
+<text x="1788" y="637" font-family="Segoe UI, Arial, sans-serif" font-size="14px" font-weight="400" fill="#333333" text-anchor="start">• TF-IDF retrieval from local reports</text>
+<text x="1788" y="666" font-family="Segoe UI, Arial, sans-serif" font-size="14px" font-weight="400" fill="#333333" text-anchor="start">• Study-aware matching</text>
+<text x="1788" y="695" font-family="Segoe UI, Arial, sans-serif" font-size="14px" font-weight="400" fill="#333333" text-anchor="start">• Negation-aware comparison</text>
+<rect x="1760" y="885" width="545" height="235" rx="6" fill="#FFFFFF" stroke="#4D6885" stroke-width="2"/>
+<text x="1784" y="925" font-family="Segoe UI, Arial, sans-serif" font-size="17px" font-weight="700" fill="#1F1F1F" text-anchor="start">Clinician-facing decision support</text>
+<text x="1788" y="967" font-family="Segoe UI, Arial, sans-serif" font-size="14px" font-weight="400" fill="#333333" text-anchor="start">• Predictions + Grad-CAM</text>
+<text x="1788" y="996" font-family="Segoe UI, Arial, sans-serif" font-size="14px" font-weight="400" fill="#333333" text-anchor="start">• Confidence and uncertainty</text>
+<text x="1788" y="1025" font-family="Segoe UI, Arial, sans-serif" font-size="14px" font-weight="400" fill="#333333" text-anchor="start">• Evidence and feedback</text>
+<g stroke="#4D6885" stroke-width="4" fill="#4D6885">
+<line x1="375" y1="370" x2="425" y2="370"/><polygon points="425,370 411,362 411,378"/>
+<line x1="745" y1="370" x2="795" y2="370"/><polygon points="795,370 781,362 781,378"/>
+<line x1="1285" y1="370" x2="1340" y2="370"/><polygon points="1340,370 1326,362 1326,378"/>
+<line x1="1700" y1="690" x2="1730" y2="690"/><line x1="1730" y1="690" x2="1730" y2="365"/><line x1="1730" y1="365" x2="1760" y2="365"/><polygon points="1760,365 1746,357 1746,373"/>
+<line x1="2020" y1="365" x2="2045" y2="365"/><polygon points="2045,365 2031,357 2031,373"/>
+<line x1="1890" y1="495" x2="1890" y2="555"/><polygon points="1890,555 1882,541 1898,541"/>
+<line x1="2040" y1="825" x2="2040" y2="885"/><polygon points="2040,885 2032,871 2048,871"/>
+<line x1="1760" y1="1000" x2="1725" y2="1000" stroke-dasharray="10 8"/><line x1="1725" y1="1000" x2="1725" y2="1250" stroke-dasharray="10 8"/><line x1="1725" y1="1250" x2="1695" y2="1250" stroke-dasharray="10 8"/><polygon points="1695,1250 1709,1242 1709,1258"/>
+</g>
+<rect x="55" y="930" width="1640" height="445" rx="6" fill="#FFFFFF" stroke="#6C8EBF" stroke-width="2"/>
+<text x="85" y="975" font-family="Segoe UI, Arial, sans-serif" font-size="18px" font-weight="700" fill="#1F1F1F" text-anchor="start">6  EVALUATION, GOVERNANCE, AND RESEARCH ANALYSIS</text>
+<text x="100" y="1040" font-family="Segoe UI, Arial, sans-serif" font-size="14px" font-weight="400" fill="#333333" text-anchor="start">• AUROC / AUPRC / F1 / confusion matrices</text>
+<text x="100" y="1092" font-family="Segoe UI, Arial, sans-serif" font-size="14px" font-weight="400" fill="#333333" text-anchor="start">• Brier score / ECE / reliability diagrams</text>
+<text x="100" y="1144" font-family="Segoe UI, Arial, sans-serif" font-size="14px" font-weight="400" fill="#333333" text-anchor="start">• Robustness to missing clinical data and degraded images</text>
+<text x="100" y="1196" font-family="Segoe UI, Arial, sans-serif" font-size="14px" font-weight="400" fill="#333333" text-anchor="start">• View-position cohort audit; unavailable demographics reported explicitly</text>
+<text x="100" y="1248" font-family="Segoe UI, Arial, sans-serif" font-size="14px" font-weight="400" fill="#333333" text-anchor="start">• Model selection uses performance, calibration, runtime, and stability</text>
+<rect x="55" y="1400" width="2290" height="60" rx="4" fill="#FFFFFF" stroke="#6C8EBF" stroke-width="1"/>
+<text x="80" y="1438" font-family="Segoe UI, Arial, sans-serif" font-size="13px" font-weight="700" fill="#1F1F1F" text-anchor="start">Current implementation: FastAPI backend + browser dashboard; local trained artifacts; local report retrieval; decision support rather than autonomous diagnosis.</text>
+</svg>

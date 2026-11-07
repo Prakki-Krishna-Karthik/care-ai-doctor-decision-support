@@ -1,0 +1,82 @@
+{
+  "available": true,
+  "status": "research_only_review_required",
+  "deployment_allowed": false,
+  "validation_minus_test_gap": {
+    "auprc": 0.08831616269251985,
+    "auroc": 0.10304541303341064,
+    "f1": 0.13843702835303306,
+    "balanced_accuracy": 0.16806418571592785,
+    "brier_score": -0.059125133888820916,
+    "ece_10bin": -0.06324061872481
+  },
+  "sparse_test_labels": [
+    {
+      "label": "Atelectasis",
+      "positive_count": 51,
+      "negative_count": 3
+    },
+    {
+      "label": "Cardiomegaly",
+      "positive_count": 50,
+      "negative_count": 16
+    },
+    {
+      "label": "Consolidation",
+      "positive_count": 11,
+      "negative_count": 22
+    },
+    {
+      "label": "Enlarged Cardiomediastinum",
+      "positive_count": 6,
+      "negative_count": 4
+    },
+    {
+      "label": "Fracture",
+      "positive_count": 0,
+      "negative_count": 6
+    },
+    {
+      "label": "Lung Lesion",
+      "positive_count": 3,
+      "negative_count": 3
+    },
+    {
+      "label": "Lung Opacity",
+      "positive_count": 42,
+      "negative_count": 4
+    },
+    {
+      "label": "No Finding",
+      "positive_count": 90,
+      "negative_count": 0
+    },
+    {
+      "label": "Pleural Other",
+      "positive_count": 3,
+      "negative_count": 0
+    },
+    {
+      "label": "Pneumonia",
+      "positive_count": 10,
+      "negative_count": 42
+    },
+    {
+      "label": "Pneumothorax",
+      "positive_count": 6,
+      "negative_count": 32
+    },
+    {
+      "label": "Support Devices",
+      "positive_count": 54,
+      "negative_count": 4
+    }
+  ],
+  "warnings": [
+    "Validation AUPRC is more than five points above test AUPRC.",
+    "Validation F1 is more than ten points above test F1.",
+    "Test calibration error is materially worse than validation calibration error.",
+    "Some labels have too little test support for stable per-label conclusions."
+  ],
+  "recommendation": "Use repeated patient-level cross-validation and an untouched external test set before clinical claims."
+}
